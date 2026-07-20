@@ -1,0 +1,551 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>James Gategi — Data Annotation Specialist &amp; Developer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,500&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg-base:#0E1420;
+    --bg-panel:#161D2E;
+    --bg-panel-2:#1B2338;
+    --border:#2A3348;
+    --text-primary:#F2EFE9;
+    --text-muted:#8D96A8;
+    --gold:#E8A33D;
+    --teal:#45D9C0;
+    --coral:#E2665B;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--bg-base);
+    color:var(--text-primary);
+    font-family:'Inter',sans-serif;
+    line-height:1.6;
+    overflow-x:hidden;
+  }
+  @media (prefers-reduced-motion: reduce){
+    *{animation-duration:0.01ms !important; transition-duration:0.01ms !important;}
+    html{scroll-behavior:auto;}
+  }
+  a{color:inherit; text-decoration:none;}
+  img{max-width:100%; display:block;}
+  .wrap{max-width:1120px; margin:0 auto; padding:0 32px;}
+  .eyebrow{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:0.72rem;
+    letter-spacing:0.14em;
+    text-transform:uppercase;
+    color:var(--gold);
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+  }
+  .eyebrow::before{content:"[";color:var(--border);}
+  .eyebrow::after{content:"]";color:var(--border);}
+  h1,h2,h3{font-family:'Fraunces',serif; font-weight:600; letter-spacing:-0.01em;}
+
+  /* ---------- Nav ---------- */
+  header{
+    position:fixed; top:0; left:0; right:0; z-index:100;
+    background:rgba(14,20,32,0.82);
+    backdrop-filter:blur(10px);
+    border-bottom:1px solid var(--border);
+  }
+  nav.wrap{
+    display:flex; align-items:center; justify-content:space-between;
+    height:68px;
+  }
+  .logo{
+    font-family:'IBM Plex Mono',monospace;
+    font-weight:600; font-size:0.95rem; letter-spacing:0.02em;
+    color:var(--text-primary);
+  }
+  .logo span{color:var(--gold);}
+  .navlinks{display:flex; gap:34px;}
+  .navlinks a{
+    font-size:0.86rem; color:var(--text-muted); position:relative; padding:4px 0;
+    transition:color 0.25s ease;
+  }
+  .navlinks a::after{
+    content:''; position:absolute; left:50%; right:50%; bottom:-2px; height:1px;
+    background:var(--gold); transition:left 0.25s ease, right 0.25s ease;
+  }
+  .navlinks a:hover{color:var(--text-primary);}
+  .navlinks a:hover::after{left:0; right:0;}
+  .navtoggle{display:none;}
+
+  /* ---------- Bounding-box signature element ---------- */
+  .bbox{position:relative; display:inline-block;}
+  .bbox::before, .bbox::after,
+  .bbox .c2, .bbox .c3{
+    content:''; position:absolute; width:14px; height:14px;
+    border-color:var(--gold); opacity:0; transition:opacity 0.3s ease, transform 0.3s ease;
+  }
+  .bbox::before{top:-8px; left:-8px; border-top:2px solid; border-left:2px solid; transform:translate(6px,6px);}
+  .bbox::after{bottom:-8px; right:-8px; border-bottom:2px solid; border-right:2px solid; transform:translate(-6px,-6px);}
+  .bbox .c2{top:-8px; right:-8px; border-top:2px solid; border-right:2px solid; transform:translate(-6px,6px);}
+  .bbox .c3{bottom:-8px; left:-8px; border-bottom:2px solid; border-left:2px solid; transform:translate(6px,-6px);}
+  .bbox:hover::before, .bbox:hover::after, .bbox:hover .c2, .bbox:hover .c3{
+    opacity:1; transform:translate(0,0);
+  }
+  .bbox-tag{
+    position:absolute; top:-26px; left:-8px;
+    font-family:'IBM Plex Mono',monospace; font-size:0.66rem; color:var(--gold);
+    background:var(--bg-base); padding:2px 6px; border:1px solid var(--border);
+    opacity:0; transform:translateY(4px); transition:opacity 0.3s ease, transform 0.3s ease;
+    white-space:nowrap; pointer-events:none;
+  }
+  .bbox:hover .bbox-tag{opacity:1; transform:translateY(0);}
+
+  /* ---------- Hero ---------- */
+  .hero{
+    min-height:100vh; display:flex; align-items:center;
+    padding-top:100px; padding-bottom:60px;
+    position:relative;
+    background:
+      radial-gradient(ellipse 900px 500px at 15% 20%, rgba(232,163,61,0.10), transparent 60%),
+      radial-gradient(ellipse 700px 500px at 85% 70%, rgba(69,217,192,0.08), transparent 60%);
+  }
+  .hero-grid{display:grid; grid-template-columns:1.3fr 0.9fr; gap:60px; align-items:center;}
+  .hero h1{
+    font-size:clamp(2.6rem, 5.4vw, 4.4rem);
+    line-height:1.04; margin:18px 0 22px; color:var(--text-primary);
+  }
+  .hero h1 em{color:var(--gold); font-style:italic;}
+  .hero p.lede{
+    font-size:1.08rem; color:var(--text-muted); max-width:46ch; margin-bottom:34px;
+  }
+  .cta-row{display:flex; gap:16px; flex-wrap:wrap;}
+  .btn{
+    font-family:'IBM Plex Mono',monospace; font-size:0.82rem; letter-spacing:0.03em;
+    padding:13px 24px; border-radius:2px; position:relative; overflow:hidden;
+    transition:transform 0.2s ease, border-color 0.2s ease;
+    display:inline-block;
+  }
+  .btn-fill{background:var(--gold); color:#1A1406; font-weight:600; border:1px solid var(--gold);}
+  .btn-fill:hover{transform:translateY(-2px); box-shadow:0 10px 24px -8px rgba(232,163,61,0.5);}
+  .btn-ghost{border:1px solid var(--border); color:var(--text-primary);}
+  .btn-ghost:hover{border-color:var(--teal); color:var(--teal); transform:translateY(-2px);}
+
+  .hero-card{
+    background:var(--bg-panel); border:1px solid var(--border); border-radius:4px;
+    padding:28px; font-family:'IBM Plex Mono',monospace; font-size:0.82rem;
+  }
+  .hero-card .row{display:flex; justify-content:space-between; padding:9px 0; border-bottom:1px dashed var(--border); color:var(--text-muted);}
+  .hero-card .row:last-child{border-bottom:none;}
+  .hero-card .row b{color:var(--text-primary); font-weight:500;}
+  .hero-card .conf{color:var(--teal);}
+  .hero-card-title{color:var(--gold); font-size:0.7rem; letter-spacing:0.1em; text-transform:uppercase; margin-bottom:16px;}
+
+  .hero-visual{display:flex; flex-direction:column; align-items:center; gap:28px;}
+  .hero-photo-frame{display:inline-block;}
+  .hero-photo{
+    width:220px; height:220px; border-radius:50%;
+    object-fit:cover; border:2px solid var(--border);
+    filter:grayscale(15%);
+    transition:border-color 0.3s ease, filter 0.3s ease;
+  }
+  .hero-photo-frame:hover .hero-photo{border-color:var(--gold); filter:grayscale(0%);}
+
+  /* ---------- Section shell ---------- */
+  section{padding:110px 0;}
+  .section-head{margin-bottom:56px; max-width:640px;}
+  .section-head h2{font-size:clamp(1.9rem,3vw,2.6rem); margin-top:14px;}
+  .section-head p{color:var(--text-muted); margin-top:14px; font-size:1.02rem;}
+  #education{background:var(--bg-panel); border-top:1px solid var(--border); border-bottom:1px solid var(--border);}
+
+  /* ---------- Journey timeline ---------- */
+  .journey{display:flex; flex-direction:column; gap:2px;}
+  .job{
+    display:grid; grid-template-columns:170px 1fr; gap:28px;
+    padding:28px 0; border-top:1px solid var(--border);
+    transition:padding-left 0.3s ease;
+  }
+  .job:last-child{border-bottom:1px solid var(--border);}
+  .job:hover{padding-left:14px; background:linear-gradient(90deg, rgba(232,163,61,0.05), transparent 40%);}
+  .job-period{font-family:'IBM Plex Mono',monospace; font-size:0.78rem; color:var(--text-muted); padding-top:3px;}
+  .job-org{font-size:1.18rem; font-weight:600; color:var(--text-primary); margin-bottom:4px;}
+  .job-org .tag{font-family:'IBM Plex Mono',monospace; font-size:0.68rem; color:var(--gold); border:1px solid var(--border); padding:2px 7px; margin-left:10px; border-radius:2px; vertical-align:middle;}
+  .job-roles{margin-top:10px; display:flex; flex-direction:column; gap:8px;}
+  .job-role{font-size:0.92rem; color:var(--text-muted); padding-left:16px; position:relative;}
+  .job-role::before{content:'—'; position:absolute; left:0; color:var(--border);}
+  .job-role b{color:var(--text-primary); font-weight:500;}
+
+  /* ---------- Education ---------- */
+  .edu-card{
+    background:var(--bg-base); border:1px solid var(--border); padding:32px; border-radius:4px;
+    position:relative;
+  }
+  .edu-top{display:flex; justify-content:space-between; align-items:baseline; flex-wrap:wrap; gap:10px; margin-bottom:8px;}
+  .edu-school{font-size:1.4rem; font-family:'Fraunces',serif; font-weight:600;}
+  .edu-status{font-family:'IBM Plex Mono',monospace; font-size:0.72rem; color:var(--teal);}
+  .edu-degree{color:var(--text-muted); margin-bottom:20px;}
+  .course-grid{display:grid; grid-template-columns:repeat(auto-fill,minmax(200px,1fr)); gap:10px;}
+  .course{
+    font-family:'IBM Plex Mono',monospace; font-size:0.76rem; color:var(--text-muted);
+    border:1px solid var(--border); padding:9px 12px; border-radius:2px;
+    transition:border-color 0.25s ease, color 0.25s ease;
+  }
+  .course:hover{border-color:var(--gold); color:var(--text-primary);}
+  .edu-extra{margin-top:26px; padding-top:22px; border-top:1px dashed var(--border); color:var(--text-muted); font-size:0.9rem;}
+
+  /* ---------- Certifications ---------- */
+  .cert-grid{display:grid; grid-template-columns:1fr 1fr; gap:28px;}
+  .cert-card{
+    background:var(--bg-panel); border:1px solid var(--border); border-radius:6px; overflow:hidden;
+    transition:transform 0.3s ease, border-color 0.3s ease;
+  }
+  .cert-card:hover{transform:translateY(-6px); border-color:var(--gold);}
+  .cert-img{aspect-ratio:16/10; overflow:hidden; background:#000;}
+  .cert-img img{width:100%; height:100%; object-fit:cover; transition:transform 0.5s ease;}
+  .cert-card:hover .cert-img img{transform:scale(1.04);}
+  .cert-body{padding:22px 24px;}
+  .cert-body h3{font-size:1.08rem; margin-bottom:6px;}
+  .cert-body p{color:var(--text-muted); font-size:0.88rem;}
+  .cert-date{font-family:'IBM Plex Mono',monospace; font-size:0.7rem; color:var(--gold); margin-top:10px; display:block;}
+  a.cert-date{transition:color 0.25s ease;}
+  a.cert-date:hover{color:var(--teal); text-decoration:underline;}
+
+  /* ---------- Projects ---------- */
+  .proj-grid{display:grid; grid-template-columns:repeat(auto-fit,minmax(300px,1fr)); gap:26px;}
+  .proj-card{
+    background:var(--bg-panel); border:1px solid var(--border); border-radius:6px; padding:28px;
+    position:relative; transition:border-color 0.3s ease, transform 0.3s ease;
+  }
+  .proj-card:hover{border-color:var(--teal); transform:translateY(-5px);}
+  .proj-num{font-family:'IBM Plex Mono',monospace; font-size:0.72rem; color:var(--text-muted); margin-bottom:16px; display:block;}
+  .proj-card h3{font-size:1.28rem; margin-bottom:10px;}
+  .proj-card p{color:var(--text-muted); font-size:0.9rem; margin-bottom:18px;}
+  .stack{display:flex; flex-wrap:wrap; gap:8px; margin-bottom:20px;}
+  .stack span{
+    font-family:'IBM Plex Mono',monospace; font-size:0.68rem; color:var(--teal);
+    border:1px solid var(--border); padding:3px 9px; border-radius:2px;
+  }
+  .proj-link{font-family:'IBM Plex Mono',monospace; font-size:0.8rem; color:var(--gold); display:inline-flex; align-items:center; gap:6px;}
+  .proj-link::after{content:'→'; transition:transform 0.25s ease;}
+  .proj-link:hover::after{transform:translateX(4px);}
+  .proj-status{
+    position:absolute; top:28px; right:28px;
+    font-family:'IBM Plex Mono',monospace; font-size:0.64rem; letter-spacing:0.06em;
+    padding:3px 8px; border-radius:2px; text-transform:uppercase;
+  }
+  .status-live{background:rgba(69,217,192,0.12); color:var(--teal); border:1px solid rgba(69,217,192,0.35);}
+  .status-build{background:rgba(232,163,61,0.12); color:var(--gold); border:1px solid rgba(232,163,61,0.35);}
+
+  /* ---------- Contact ---------- */
+  #contact{border-top:1px solid var(--border);}
+  .contact-grid{display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:20px; margin-top:20px;}
+  .contact-card{
+    border:1px solid var(--border); padding:24px; border-radius:4px;
+    transition:border-color 0.25s ease, transform 0.25s ease, background 0.25s ease;
+  }
+  .contact-card:hover{border-color:var(--gold); transform:translateY(-4px); background:var(--bg-panel);}
+  .contact-label{font-family:'IBM Plex Mono',monospace; font-size:0.68rem; color:var(--text-muted); text-transform:uppercase; letter-spacing:0.08em; margin-bottom:10px;}
+  .contact-value{font-size:1.02rem; word-break:break-word;}
+
+  footer{padding:34px 0; text-align:center; color:var(--text-muted); font-size:0.8rem; font-family:'IBM Plex Mono',monospace; border-top:1px solid var(--border);}
+
+  @media (max-width:860px){
+    .navlinks{display:none;}
+    .hero-grid{grid-template-columns:1fr;}
+    .job{grid-template-columns:1fr; gap:8px;}
+    .cert-grid{grid-template-columns:1fr;}
+  }
+
+  /* ---------- Scroll reveal ---------- */
+  .reveal{
+    opacity:0; transform:translateY(28px);
+    transition:opacity 0.7s ease, transform 0.7s ease;
+  }
+  .reveal.visible{opacity:1; transform:translateY(0);}
+  .cert-grid .cert-card.reveal:nth-child(2){transition-delay:0.12s;}
+  .proj-grid .proj-card.reveal:nth-child(2){transition-delay:0.12s;}
+  .proj-grid .proj-card.reveal:nth-child(3){transition-delay:0.24s;}
+  .contact-grid .contact-card.reveal:nth-child(2){transition-delay:0.08s;}
+  .contact-grid .contact-card.reveal:nth-child(3){transition-delay:0.16s;}
+  .contact-grid .contact-card.reveal:nth-child(4){transition-delay:0.24s;}
+  @media (prefers-reduced-motion: reduce){
+    .reveal{opacity:1; transform:none; transition:none;}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <nav class="wrap">
+    <div class="logo">james<span>.</span>gategi</div>
+    <div class="navlinks">
+      <a href="#journey">Journey</a>
+      <a href="#education">Education</a>
+      <a href="#certifications">Certifications</a>
+      <a href="#projects">Projects</a>
+      <a href="#contact">Contact</a>
+    </div>
+  </nav>
+</header>
+
+<section class="hero">
+  <div class="wrap hero-grid">
+    <div>
+      <span class="eyebrow">Nairobi, Kenya</span>
+      <h1>Training AI to see straight,<br><em>building software</em> on the side.</h1>
+      <p class="lede">James Gategi — Data Annotation Specialist &amp; Prompt Engineer with 4+ years labeling, reviewing, and shaping the data behind machine learning models. Also a BSc IT student building real software: student tools, credit systems, small businesses' first websites.</p>
+      <div class="cta-row">
+        <a href="#projects" class="btn btn-fill">View projects</a>
+        <a href="#contact" class="btn btn-ghost">Get in touch</a>
+      </div>
+    </div>
+    <div class="hero-visual">
+      <div class="bbox hero-photo-frame">
+        <span class="c2"></span><span class="c3"></span>
+        <span class="bbox-tag">subject: james_gategi.jpg</span>
+        <img src="assets/james-photo.jpg" alt="James Gategi" class="hero-photo">
+      </div>
+      <div class="bbox">
+        <span class="c2"></span><span class="c3"></span>
+        <span class="bbox-tag">file: annotation.json</span>
+        <div class="hero-card">
+          <div class="hero-card-title">annotation.json</div>
+          <div class="row"><span>role</span><b>data_annotator</b></div>
+          <div class="row"><span>role</span><b>prompt_engineer</b></div>
+          <div class="row"><span>role</span><b>developer</b></div>
+          <div class="row"><span>experience</span><b>4+ years</b></div>
+          <div class="row"><span>degree</span><b>BSc IT (in progress)</b></div>
+          <div class="row"><span>confidence</span><b class="conf">0.98</b></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="journey">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <span class="eyebrow">The AI work journey</span>
+      <h2>Four years inside the model's training loop</h2>
+      <p>From frame-by-frame video annotation to writing chain-of-thought prompts — the work that makes AI outputs reliable, one labeled example at a time.</p>
+    </div>
+
+    <div class="journey">
+      <div class="job reveal">
+        <div class="job-period">2021 — 2022</div>
+        <div>
+          <div class="job-org">CloudFactory</div>
+          <div class="job-roles">
+            <div class="job-role"><b>Data Annotation Worker</b> — image, text, and video annotation under tight deadlines across multiple concurrent workstreams.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="job reveal">
+        <div class="job-period">Aug — Dec 2024</div>
+        <div>
+          <div class="job-org">Freelance</div>
+          <div class="job-roles">
+            <div class="job-role"><b>Data Annotator</b> — image labeling and text classification, supporting quality review to keep projects on deadline.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="job reveal">
+        <div class="job-period">2024 — May 2025</div>
+        <div>
+          <div class="job-org">RWS Group <span class="tag">Diamond Project</span></div>
+          <div class="job-roles">
+            <div class="job-role"><b>Data Annotation, English Speaker</b> — annotated text, image, and audio data, working with QA teams to refine annotation tooling and process.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="job reveal">
+        <div class="job-period">Jan 2025 — Present</div>
+        <div>
+          <div class="job-org">micro1 <span class="tag">multi-project</span></div>
+          <div class="job-roles">
+            <div class="job-role"><b>Data Annotator, Luma Project</b> (Jan–Mar 2025) — timestamped descriptions of camera movement, lighting, and subject behavior in video clips.</div>
+            <div class="job-role"><b>Prompt Engineer, Mar Mariners Project</b> (Sep 2025–Present) — chain-of-thought prompts, golden responses, and rubrics for model training.</div>
+            <div class="job-role"><b>First POV Contributor, Yellowstone Team</b> (Dec 2025–Jan 2026) — robotics systems development and operational testing.</div>
+            <div class="job-role"><b>Data Reviewer, Juno Zion Project</b> — reviewing annotated data for accuracy and consistency ahead of model training.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="job reveal">
+        <div class="job-period">Mar 2025 — Jan 2026</div>
+        <div>
+          <div class="job-org">Innodata <span class="tag">Superintelligence Lab</span></div>
+          <div class="job-roles">
+            <div class="job-role"><b>Data Annotator</b> — labeling and categorizing large datasets to improve model accuracy, under strict compliance and quality standards.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="job reveal">
+        <div class="job-period">May 2025 — Feb 2026</div>
+        <div>
+          <div class="job-org">Telus</div>
+          <div class="job-roles">
+            <div class="job-role"><b>AI Data Annotation Specialist</b> — precise annotation and labeling to strengthen machine learning model inputs.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="job reveal">
+        <div class="job-period">Apr 2024 — Jan 2026</div>
+        <div>
+          <div class="job-org">Indeed <span class="tag">Prolific</span></div>
+          <div class="job-roles">
+            <div class="job-role"><b>Customer Support Expert</b> — reviewed AI-generated content for clarity and accuracy, fed findings back into model improvement across support, QA, and compliance workflows.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="education">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <span class="eyebrow">Education</span>
+      <h2>Building the fundamentals alongside the work</h2>
+    </div>
+    <div class="edu-card reveal">
+      <div class="edu-top">
+        <div class="edu-school">Kirinyaga University</div>
+        <div class="edu-status">● in progress — year 3</div>
+      </div>
+      <div class="edu-degree">Bachelor of Science, Information Technology</div>
+      <div class="course-grid">
+        <div class="course">Object Oriented Programming II</div>
+        <div class="course">Mobile Computing</div>
+        <div class="course">Network Systems Administration</div>
+        <div class="course">Application Programming I</div>
+        <div class="course">Cloud Computing</div>
+        <div class="course">Industrial Attachment</div>
+      </div>
+      <div class="edu-extra">
+        Also completed <b style="color:var(--text-primary)">CSC200</b> and <b style="color:var(--text-primary)">CSC205</b> through CSU Global (Spring 2026) — covering HTML development, cryptography, sorting algorithms, and queue/stack algorithms, including a Java student grade calculator project.
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="certifications">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <span class="eyebrow">Certifications</span>
+      <h2>Verified, not just claimed</h2>
+    </div>
+    <div class="cert-grid">
+      <div class="cert-card reveal">
+        <div class="cert-img"><img src="assets/micro1-cert.png" alt="micro1 Certified Data Annotator certificate"></div>
+        <div class="cert-body">
+          <h3>Certified Data Annotator</h3>
+          <p>Passed micro1's AI Interview and officially certified as a Data Annotator.</p>
+          <a href="https://refer.micro1.ai/referral/jobs?referralCode=8ff6e20b-27a2-4ba1-b24f-d100c6e0596a&utm_source=referral&utm_medium=share&utm_campaign=job_referral" target="_blank" class="cert-date">Issued by micro1</a>
+        </div>
+      </div>
+      <div class="cert-card reveal">
+        <div class="cert-img"><img src="assets/rws-cert.png" alt="RWS Group Linguistic AI Certification Training certificate"></div>
+        <div class="cert-body">
+          <h3>Linguistic AI Certification Training</h3>
+          <p>Certificate of completion for structured training in linguistic data for AI model development.</p>
+          <span class="cert-date">RWS Group · 23 June 2026</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="projects" style="background:var(--bg-panel); border-top:1px solid var(--border); border-bottom:1px solid var(--border);">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <span class="eyebrow">Projects</span>
+      <h2>Software built for real problems</h2>
+      <p>Independent builds — from a Kenyan student's cluttered timetable to a shopkeeper's credit book.</p>
+    </div>
+    <div class="proj-grid">
+      <div class="proj-card reveal">
+        <span class="proj-status status-live">Live</span>
+        <span class="proj-num">01</span>
+        <h3>UniSchedule</h3>
+        <p>A student timetable and reminder system built for Kenyan university students, with clash-detection logic and automated email reminders.</p>
+        <div class="stack"><span>Spring Boot</span><span>Java</span><span>Thymeleaf</span><span>H2</span><span>Spring Mail</span></div>
+        <a href="https://github.com/techjames-kyu/" target="_blank" class="proj-link">View on GitHub</a>
+      </div>
+      <div class="proj-card reveal">
+        <span class="proj-status status-build">In progress</span>
+        <span class="proj-num">02</span>
+        <h3>Duka Credit Manager</h3>
+        <p>A credit-tracking SaaS concept for Kenyan hardware stores (dukas) — helping shopkeepers manage customer credit without a paper ledger.</p>
+        <div class="stack"><span>FastAPI</span><span>PostgreSQL</span><span>Dashboard UI</span></div>
+        <a href="https://github.com/techjames-kyu/" target="_blank" class="proj-link">View on GitHub</a>
+      </div>
+      <div class="proj-card reveal">
+        <span class="proj-status status-live">Live</span>
+        <span class="proj-num">03</span>
+        <h3>Study Session Tracker</h3>
+        <p>A first JavaScript project — tracks study sessions with grouping, persistence, and delete functionality, no backend required.</p>
+        <div class="stack"><span>JavaScript</span><span>localStorage</span><span>Git</span></div>
+        <a href="https://github.com/techjames-kyu/study-tracker" target="_blank" class="proj-link">View on GitHub</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="contact">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <span class="eyebrow">Contact</span>
+      <h2>Open to freelance, AI annotation, and dev work</h2>
+    </div>
+    <div class="contact-grid">
+      <a href="mailto:gategijames412@gmail.com" class="contact-card reveal">
+        <div class="contact-label">Email</div>
+        <div class="contact-value">gategijames412@gmail.com</div>
+      </a>
+      <a href="https://wa.me/254115447885" target="_blank" class="contact-card reveal">
+        <div class="contact-label">Phone / WhatsApp</div>
+        <div class="contact-value">+254 115 447 885</div>
+      </a>
+      <a href="https://www.linkedin.com/in/james-gategi-245a63332/" target="_blank" class="contact-card reveal">
+        <div class="contact-label">LinkedIn</div>
+        <div class="contact-value">james-gategi</div>
+      </a>
+      <a href="https://github.com/techjames-kyu/" target="_blank" class="contact-card reveal">
+        <div class="contact-label">GitHub</div>
+        <div class="contact-value">techjames-kyu</div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">© 2026 James Gategi · Nairobi, Kenya</div>
+</footer>
+
+<script>
+(function(){
+  var els = document.querySelectorAll('.reveal');
+  if(!('IntersectionObserver' in window)){
+    els.forEach(function(el){ el.classList.add('visible'); });
+    return;
+  }
+  var observer = new IntersectionObserver(function(entries){
+    entries.forEach(function(entry){
+      if(entry.isIntersecting){
+        entry.target.classList.add('visible');
+        observer.unobserve(entry.target);
+      }
+    });
+  }, {threshold:0.15, rootMargin:'0px 0px -60px 0px'});
+  els.forEach(function(el){ observer.observe(el); });
+})();
+</script>
+</body>
+</html>
